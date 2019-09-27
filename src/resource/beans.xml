@@ -9,31 +9,45 @@
            http://www.springframework.org/schema/context/spring-context-4.3.xsd
            http://www.springframework.org/schema/aop
            http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
-	<context:annotation-config />
-    <!--启用Bean 的自动扫描功能-->
-	<context:component-scan base-package="com.*"/>
-
-    <!--编写配置文件交由Spring IOC容器管理 -->
-
-    <!-- 启动@aspectj的自动代理支持-->
-    <aop:aspectj-autoproxy />
-    <!-- 定义目标对象 -->
-    <bean id="zlkDAOImpl" class="com.dao.impl.ZlkDAOImpl" />
-    <!-- 定义aspect类 -->
-    <bean name="myAspectJ" class="com.aspect.MyAspect"/>
 
 
+  <!--MethodLocatingFactoryTest-->
+<!--  <bean id="logInterceptor" class="com.aop.LogInterceptor"></bean>-->
+<!--  <aop:config>-->
 
-	<bean id="logInterceptor" class="com.aop.LogInterceptor"></bean>
-  	<aop:config>
+<!--    <aop:aspect id="logAspect" ref="logInterceptor">-->
+<!--      <aop:pointcut id="add" expression="execution(public * com.service..*.add(..))"/>-->
+<!--      <aop:before method="before" pointcut-ref="add"/>-->
+<!--    </aop:aspect>-->
 
-  		<aop:aspect id="logAspect" ref="logInterceptor">
-              <aop:pointcut id="add" expression="execution(public * com.service..*.add(..))"/>
-              <aop:before method="before" pointcut-ref="add"/>
-  <!--			<aop:before method="before" pointcut="execution(public * com.service..*.add(..))" />-->
-  		</aop:aspect>
+<!--  </aop:config>-->
 
-  	</aop:config>
 
+      <context:annotation-config/>
+      <!--启用Bean 的自动扫描功能-->
+      <context:component-scan base-package="com.*"/>
+
+      <!--编写配置文件交由Spring IOC容器管理 -->
+      <!-- 启动@aspectj的自动代理支持-->
+      <aop:aspectj-autoproxy/>
+      <!-- 定义目标对象 -->
+      <bean id="zlkDAOImpl" class="com.dao.impl.ZlkDAOImpl"/>
+      <!-- 定义aspect类 -->
+      <bean name="myAspectJ" class="com.aspect.MyAspect"/>
+
+
+
+
+
+      <!--Spring的IOC容器帮助我们创建并注入这些类-->
+      <!-- 声明accountDao对象,交给spring创建 -->
+      <bean name="accountDao" class="com.dao.impl.AccountDaoImpl"/>
+      <!-- 声明accountService对象,交给spring创建 -->
+      <bean name="accountService" class="com.service.impl.AccountServiceImpl">
+        <!-- 依赖注入accountDao对象,需要set方法-->
+        <property name="accountDao" ref="accountDao"/>
+        <!-- 构¬造方法方式注入accountDao对象,-->
+        <!--        <constructor-arg ref="accountDao"/>-->
+  </bean>
 
 </beans>

@@ -17,4 +17,8 @@ public class LogInterceptor {
         pjp.proceed();
         System.out.println("method around end");
     }
+
+    public void after() {
+        System.out.println("method after");
+    }
 }
